@@ -17,7 +17,7 @@ def read_blocks(input_file, blocks):
     with open(input_file) as f:
 
         for i in range(5):
-            f.next()
+            next(f)
 
         for line in f:
             line_split = line.strip().split()
@@ -45,7 +45,7 @@ def count_aligned_bases(block_dict, seq_length):
 
     total = 0
 
-    for blocks in block_dict.values():
+    for blocks in list(block_dict.values()):
 
         # Account for padded sequence
         _blocks = []

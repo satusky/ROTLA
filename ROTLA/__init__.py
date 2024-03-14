@@ -7,10 +7,10 @@ __email__ = 'c.andrew.lavender@gmail.com, adam.burkholder@nih.gov'
 __version__ = '0.1.0'
 
 import os
-import ConfigParser
+import configparser
 
 PATHS = dict()
-config = ConfigParser.ConfigParser()
+config = configparser.ConfigParser()
 config.read(os.path.join(
     os.path.dirname(os.path.abspath(__file__)), '../config', 'paths.cfg'))
 for key, value in config.items('paths'):

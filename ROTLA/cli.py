@@ -5,9 +5,9 @@
 import click
 import os
 
-from ROTLA import ROTLA as _find_breakpoints
-from compile_breakpoint_results import compile_breakpoints as _compile_breakpoints
-from aligned_bases_from_psl import get_aligned_bases as _get_aligned_bases
+from .ROTLA import ROTLA as _find_breakpoints
+from .compile_breakpoint_results import compile_breakpoints as _compile_breakpoints
+from .aligned_bases_from_psl import get_aligned_bases as _get_aligned_bases
 
 @click.group()
 def main(args=None):

@@ -9,7 +9,7 @@ import re
 
 from subprocess import call
 from collections import defaultdict
-from __init__ import PATHS
+from .__init__ import PATHS
 
 class ROTLA(object):
     
@@ -51,7 +51,7 @@ class ROTLA(object):
                     header_count += 1
                 
                 if header_count > 1:
-                    raise StandardError('FASTA contains two headers.')
+                    raise Exception('FASTA contains two headers.')
         
         return reference.upper()
 
@@ -62,7 +62,7 @@ class ROTLA(object):
         elif re.search("\.fastq$", fq):
             handle = open(fq)
         else:
-            raise StandardError('Input read files must be in *.fastq or *.fastq.gz format.')
+            raise Exception('Input read files must be in *.fastq or *.fastq.gz format.')
 
         return handle
 
@@ -193,7 +193,7 @@ class ROTLA(object):
 
     def findBreaks(self):
         for query in self.alignment:
-            for read, alignments in self.alignment[query].items():
+            for read, alignments in list(self.alignment[query].items()):
 
                 for alignment in alignments:
                     
@@ -223,7 +223,7 @@ class ROTLA(object):
             output_breakpoints = {'read_1': set(), 'read_2': set()}
             padded_seq = ref_seq + ref_seq
             
-            for read, breakpoint_list in breakpoints.items():
+            for read, breakpoint_list in list(breakpoints.items()):
 
                 for breakpoint in breakpoint_list:
                     breakpoint = list(breakpoint)
@@ -257,7 +257,7 @@ class ROTLA(object):
             output_breakpoints = {'read_1': set(), 'read_2': set()}
             
             breaklist = []
-            for read, breakpoint_list in breakpoints.items():
+            for read, breakpoint_list in list(breakpoints.items()):
                 for breakpoint in breakpoint_list:
                     breaklist.append([read, breakpoint[0], breakpoint[1]])
 
@@ -311,7 +311,7 @@ class ROTLA(object):
             output_breakpoints = {'read_1': set(), 'read_2': set()}
             
             breaklist = []
-            for read, breakpoint_list in breakpoints.items():
+            for read, breakpoint_list in list(breakpoints.items()):
                 for breakpoint in breakpoint_list:
                     breaklist.append([read, breakpoint[0], breakpoint[1]])
             cleaned_breaklist = copy.copy(breaklist)
@@ -344,7 +344,7 @@ class ROTLA(object):
         for query in self.breakpoints:
             break_set = set()
             
-            for breakpoint_list in self.breakpoints[query].values():
+            for breakpoint_list in list(self.breakpoints[query].values()):
                 for breakpoint in breakpoint_list:
                     break_set.add(tuple(breakpoint))
         
@@ -357,8 +357,8 @@ class ROTLA(object):
         while repeat:
             repeat = False
             
-            for break_1 in self.break_count.keys():
-                for break_2 in self.break_count.keys():
+            for break_1 in list(self.break_count.keys()):
+                for break_2 in list(self.break_count.keys()):
                     if break_1 != break_2 and break_1[0] < break_2[0] and break_1[1] > break_2[0] and break_1[1] < break_2[1]:
                         offset_1 = ref_seq[break_1[0]:break_2[0]]
                         offset_2 = ref_seq[break_1[1]-1:break_2[1]-1]
@@ -378,7 +378,7 @@ class ROTLA(object):
             return position
         
         break_list = []
-        for breakpoint, count in self.break_count.items():
+        for breakpoint, count in list(self.break_count.items()):
             if breakpoint[0]+1 != breakpoint[1]:
                 start = checkBreakPosition(breakpoint[0]+1)
                 end = checkBreakPosition(breakpoint[1]-1)
